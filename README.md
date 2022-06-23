@@ -1,2 +1,3 @@
 # unit-converter
- Unit converter. Python, Tkinter.
+## Unit converter.
+Python, Tkinter.
