@@ -10,8 +10,8 @@ root.resizable(False, False)
 class Converter():
     def __init__(self):
         self.parentsDict = {}
-        self.parentsStrList = ['. . .','Distance: Kilometer > Meter','Distance: Kilometer > Miles','Weight: Kilogram > Gram','Weight: Kilogram > Pound','Power: Watt > HP']
-        self.parentsClassList = ['. . .', Distance_KILO_METERS(),Distance_KILO_MILES(),Weight_KILO_GRAM(),Weight_KILO_POUND(),Power_WATT_HP()]
+        self.parentsStrList = ['. . .','Distance: Kilometer > Meter','Distance: Kilometer > Miles','Weight: Kilogram > Gram','Weight: Kilogram > Pound','Power: Watt > HP','Power: Watt > Joule/Hour']
+        self.parentsClassList = ['. . .', Distance_KILO_METERS(),Distance_KILO_MILES(),Weight_KILO_GRAM(),Weight_KILO_POUND(),Power_WATT_HP(),Power_WATT_JOULEHOUR()]
         self.childStrList = []
         self.parent = StringVar()
         self.child = StringVar()
@@ -23,7 +23,7 @@ class Converter():
         for i in range(0, 5):
             for y in range(0, 2):
                 self.frame = Frame(root, borderwidth = 1)
-                self.frame.grid(row = 0, column = i)
+                self.frame.grid(row = 0, column = i, padx = 65)
         self.parentLabel = Label(root, text = 'Choose a category')
         self.parentLabel.grid(row = 0, column = 0, padx = 10, pady = 30, sticky='e')
         self.parentOption = ttk.OptionMenu(root, self.parent, self.parentsStrList[0], *self.parentsStrList, command = self.changeParents)
@@ -146,6 +146,14 @@ class Power_WATT_HP(Converter):
         self.child = StringVar()
         self.x = 0.00134
         self.y = 745.7
+
+
+class Power_WATT_JOULEHOUR(Converter):
+    def __init__(self):
+        self.childStrList = ['Watt > Joule/Hour','Joule/Hour > Watt']
+        self.child = StringVar()
+        self.x = 3600
+        self.y = 0.000277
 
 
 converter = Converter().showParents()
