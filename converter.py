@@ -9,14 +9,14 @@ root.resizable(False, False)
 
 class Converter():
     def __init__(self):
-        self.parentsDict = {}
-        self.parentsStrList = ['. . .','Distance: Kilometer > Meter','Distance: Kilometer > Miles','Weight: Kilogram > Gram','Weight: Kilogram > Pound','Power: Watt > HP','Power: Watt > Joule/Hour']
-        self.parentsClassList = ['. . .', Distance_KILO_METERS(),Distance_KILO_MILES(),Weight_KILO_GRAM(),Weight_KILO_POUND(),Power_WATT_HP(),Power_WATT_JOULEHOUR()]
-        self.childStrList = []
-        self.parent = StringVar()
-        self.child = StringVar()
-        self.x = 0
-        self.y = 0
+        self.parentValue = StringVar()
+        self.parentsList = ['. . .','Length','Weight','Power']
+        self.childValue = StringVar()
+        self.childrenList = []
+        self.child = ''
+        self.classesList = ['. . .',KILO__METER(),METER__KILO(),KILO__MILE(),MILE__KILO(),KILO__GRAM(),GRAM__KILO(),KILO__POUND(),POUND__KILO(),WATT__HP(),HP__WATT(),WATT__JOULEHOUR(),JOULEHOUR__WATT()]
+        self.dict = {}
+        self.multiplier = 0
 
 
     def showParents(self):
@@ -26,135 +26,153 @@ class Converter():
                 self.frame.grid(row = 0, column = i, padx = 65)
         self.parentLabel = Label(root, text = 'Choose a category')
         self.parentLabel.grid(row = 0, column = 0, padx = 10, pady = 30, sticky='e')
-        self.parentOption = ttk.OptionMenu(root, self.parent, self.parentsStrList[0], *self.parentsStrList, command = self.changeParents)
+        self.parentOption = ttk.OptionMenu(root, self.parentValue, self.parentsList[0], *self.parentsList, command = self.changeParent)
         self.parentOption.grid(row = 0, column = 1, padx = 25, pady = 10, sticky='w')
 
 
-    def changeParents(self, *args):
+    def changeParent(self, *args):
         coverLayer = Label(root)
         coverLayer.place(width = 350, height = 250, y = 60)
-        
-        for i in range(0, len(self.parentsStrList)):
-            self.parentsDict[i] = self.parentsStrList[i]
-        
-        for i in range(1, len(self.parentsDict)):
-            if self.parent.get() == self.parentsDict[i]:
-                self.parentsClassList[i].showChild()
-            elif self.parent.get() == '. . .':
+        self.childrenList = []
+        for i in range(1, len(self.classesList)):
+            if self.parentValue.get() == self.classesList[i].cat:
+                self.childrenList.append(self.classesList[i].child)
+                self.dict[self.classesList[i].child] = self.classesList[i].multiplier
+            elif self.parentValue.get() == '. . .':
                 quit()
+        self.showChildren()
 
 
-    def showChild(self):
+    def showChildren(self):
         self.childLabel = Label(root, text = 'Choose an option')
         self.childLabel.grid(row = 1, column = 0, padx = 10, pady = 10, sticky='e')
-        
-        self.childOption = ttk.OptionMenu(root, self.child, self.childStrList[0], *self.childStrList, command = self.changeChild)
+        self.childOption = ttk.OptionMenu(root, self.childValue, self.childrenList[0], *self.childrenList, command = self.changeChild)
         self.childOption.grid(row = 1, column = 1, padx = 25, pady = 10, sticky='w')
-        
-        self.entryLabel = Label(root, text = f'{self.childStrList[0].split(" > ")[0]}')
+        self.entryLabel = Label(root, text = f'{self.childValue.get().split(" > ")[0]}')
         self.entryLabel.grid(row = 2, column = 0, padx = 10, sticky='e')
-        
         self.entry = Entry(root, width = 15)
         self.entry.grid(row = 2, column = 1, padx = 25, pady = 10, sticky='w')
         self.entry.focus()
-        
         self.button = Button(root, text = 'Convert', width = 12, height = 2, command = self.convert)
         self.button.grid(row = 3, column = 1, padx = 25, pady = 10, sticky='w')
-        
-        self.outputLabel = Label(root, text = f'{self.childStrList[0].split(" > ")[1]}')
+        self.outputLabel = Label(root, text = f'{self.childValue.get().split(" > ")[1]}')
         self.outputLabel.grid(row = 4, column = 0, padx = 10, sticky='e')
-        
         self.message = Message(root, text = '0', width = 90)
         self.message.grid(row = 4, column = 1, padx = 25, pady = 10, sticky='w')
 
 
     def cleanChild(self):
-        self.message['text'] = '0'
         self.entry.delete(0, END)
+        self.message['text'] = '0'
 
 
     def changeChild(self, *args):
         self.cleanChild()
-        if self.child.get() == self.childStrList[0]:
-            self.entryLabel['text'] = self.childStrList[0].split(' > ')[0]
-            self.outputLabel['text'] = self.childStrList[0].split(' > ')[1]
-        elif self.child.get() == self.childStrList[1]:
-            self.entryLabel['text'] = self.childStrList[1].split(' > ')[0]
-            self.outputLabel['text'] = self.childStrList[1].split(' > ')[1]
-        else:
-            self.cleanChild()
+        for i in range(0, len(self.childrenList)):
+            if self.childValue.get() == self.childrenList[i]:
+                self.entryLabel['text'] = self.childValue.get().split(" > ")[0]
+                self.outputLabel['text'] = self.childValue.get().split(" > ")[1]
+            else:
+                self.cleanChild()
 
 
     def convert(self):
-        if self.child.get() == self.childStrList[0]:
-            try:
-                result = int(self.entry.get()) * self.x
-                self.message['text'] = str(round(result, 4))
-            except ValueError:
-                try:
-                    result = float(self.entry.get()) * self.x
-                    self.message['text'] = str(round(result, 4))
-                except ValueError:
-                    self.cleanChild()           
-        else:
-            try:
-                result = int(self.entry.get()) * self.y
-                self.message['text'] = str(round(result, 4))
-            except ValueError:
-                try:
-                    result = float(self.entry.get()) * self.y
-                    self.message['text'] = str(round(result, 4))
-                except ValueError:
-                    self.cleanChild()
+            for key in self.dict:
+                if key == self.childValue.get():
+                    try:
+                        result = int(self.entry.get()) * self.dict[key]
+                        self.message['text'] = str(round(result, 4))
+                    except ValueError:
+                        try:
+                            result = float(self.entry.get()) * self.dict[key]
+                            self.message['text'] = str(round(result, 4))
+                        except ValueError:
+                            self.cleanChild()
 
 
-class Distance_KILO_METERS(Converter):
+class KILO__METER(Converter):
     def __init__(self):
-        self.childStrList = ['Kilometers > Meters','Meters > Kilometers']
-        self.child = StringVar()
-        self.x = 1000
-        self.y = 0.001
-
-
-class Distance_KILO_MILES(Converter):
+        self.cat = 'Length'
+        self.child = 'Kilometers > Meters'
+        self.childValue = StringVar()
+        self.multiplier = 1000
+        
+class METER__KILO(Converter):
     def __init__(self):
-        self.childStrList = ['Kilometers > Miles','Miles > Kilometers']
-        self.child = StringVar()
-        self.x = 0.6214
-        self.y = 1.6093
+        self.cat = 'Length'
+        self.child = 'Meters > Kilometers'
+        self.childValue = StringVar()
+        self.multiplier = 0.001
 
-
-class Weight_KILO_GRAM(Converter):
+class KILO__MILE(Converter):
     def __init__(self):
-        self.childStrList = ['Kilograms > Grams','Grams > Kilograms']
-        self.child = StringVar()
-        self.x = 1000
-        self.y = 0.001
-
-
-class Weight_KILO_POUND(Converter):
+        self.cat = 'Length'
+        self.child = 'Kilometers > Miles'
+        self.childValue = StringVar()
+        self.multiplier = 0.6214
+        
+class MILE__KILO(Converter):
     def __init__(self):
-        self.childStrList = ['Kilograms > Pounds','Pounds > Kilograms']
-        self.child = StringVar()
-        self.x = 2.205
-        self.y = 0.4535
+        self.cat = 'Length'
+        self.child = 'Miles > Kilometers'
+        self.childValue = StringVar()
+        self.multiplier = 1.6093
 
-
-class Power_WATT_HP(Converter):
+class KILO__GRAM(Converter):
     def __init__(self):
-        self.childStrList = ['Watt > HP','HP > Watt']
-        self.child = StringVar()
-        self.x = 0.00134
-        self.y = 745.7
-
-
-class Power_WATT_JOULEHOUR(Converter):
+        self.cat = 'Weight'
+        self.child = 'Kilograms > Grams'
+        self.childValue = StringVar()
+        self.multiplier = 1000
+        
+class GRAM__KILO(Converter):
     def __init__(self):
-        self.childStrList = ['Watt > Joule/Hour','Joule/Hour > Watt']
-        self.child = StringVar()
-        self.x = 3600
-        self.y = 0.000277
+        self.cat = 'Weight'
+        self.child = 'Grams > Kilograms'
+        self.childValue = StringVar()
+        self.multiplier = 0.001
 
+class KILO__POUND(Converter):
+    def __init__(self):
+        self.cat = 'Weight'
+        self.child = 'Kilograms > Pounds'
+        self.childValue = StringVar()
+        self.multiplier = 2.205
+        
+class POUND__KILO(Converter):
+    def __init__(self):
+        self.cat = 'Weight'
+        self.child = 'Pounds > Kilograms'
+        self.childValue = StringVar()
+        self.multiplier = 0.4535
+
+class WATT__HP(Converter):
+    def __init__(self):
+        self.cat = 'Power'
+        self.child = 'Watt > HP'
+        self.childValue = StringVar()
+        self.multiplier = 0.00134
+        
+class HP__WATT(Converter):
+    def __init__(self):
+        self.cat = 'Power'
+        self.child = 'HP > Watt'
+        self.childValue = StringVar()
+        self.multiplier = 745.7
+
+class WATT__JOULEHOUR(Converter):
+    def __init__(self):
+        self.cat = 'Power'
+        self.child = 'Watt > Joule/Hour'
+        self.childValue = StringVar()
+        self.multiplier = 3600
+        
+class JOULEHOUR__WATT(Converter):
+    def __init__(self):
+        self.cat = 'Power'
+        self.child = 'Joule/Hour > Watt'
+        self.childValue = StringVar()
+        self.multiplier = 0.000277
 
 converter = Converter().showParents()
 root.mainloop()
