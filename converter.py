@@ -3,7 +3,9 @@ from tkinter import ttk
 
 root = Tk()
 root.title('Unit Converter')
-root.geometry('350x350')
+x = int(root.winfo_screenwidth() // 2)
+y = int(root.winfo_screenheight() * 0.2)
+root.geometry('350x350+' + str(x) + '+' + str(y))
 root.resizable(False, False)
 
 
