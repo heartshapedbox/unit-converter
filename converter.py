@@ -15,10 +15,8 @@ class Converter():
         self.parentsList = ['. . .','Length','Weight','Power']
         self.childValue = StringVar()
         self.childrenList = []
-        self.child = ''
         self.classesList = ['. . .',KILO__METER(),METER__KILO(),KILO__MILE(),MILE__KILO(),KILO__GRAM(),GRAM__KILO(),KILO__POUND(),POUND__KILO(),WATT__HP(),HP__WATT(),WATT__JOULEHOUR(),JOULEHOUR__WATT()]
         self.dict = {}
-        self.multiplier = 0
 
 
     def showParents(self):
@@ -96,84 +94,72 @@ class KILO__METER(Converter):
     def __init__(self):
         self.cat = 'Length'
         self.child = 'Kilometers > Meters'
-        self.childValue = StringVar()
         self.multiplier = 1000
         
 class METER__KILO(Converter):
     def __init__(self):
         self.cat = 'Length'
         self.child = 'Meters > Kilometers'
-        self.childValue = StringVar()
         self.multiplier = 0.001
 
 class KILO__MILE(Converter):
     def __init__(self):
         self.cat = 'Length'
         self.child = 'Kilometers > Miles'
-        self.childValue = StringVar()
         self.multiplier = 0.6214
         
 class MILE__KILO(Converter):
     def __init__(self):
         self.cat = 'Length'
         self.child = 'Miles > Kilometers'
-        self.childValue = StringVar()
         self.multiplier = 1.6093
 
 class KILO__GRAM(Converter):
     def __init__(self):
         self.cat = 'Weight'
         self.child = 'Kilograms > Grams'
-        self.childValue = StringVar()
         self.multiplier = 1000
         
 class GRAM__KILO(Converter):
     def __init__(self):
         self.cat = 'Weight'
         self.child = 'Grams > Kilograms'
-        self.childValue = StringVar()
         self.multiplier = 0.001
 
 class KILO__POUND(Converter):
     def __init__(self):
         self.cat = 'Weight'
         self.child = 'Kilograms > Pounds'
-        self.childValue = StringVar()
         self.multiplier = 2.205
         
 class POUND__KILO(Converter):
     def __init__(self):
         self.cat = 'Weight'
         self.child = 'Pounds > Kilograms'
-        self.childValue = StringVar()
         self.multiplier = 0.4535
 
 class WATT__HP(Converter):
     def __init__(self):
         self.cat = 'Power'
         self.child = 'Watt > HP'
-        self.childValue = StringVar()
         self.multiplier = 0.00134
         
 class HP__WATT(Converter):
     def __init__(self):
         self.cat = 'Power'
         self.child = 'HP > Watt'
-        self.childValue = StringVar()
         self.multiplier = 745.7
 
 class WATT__JOULEHOUR(Converter):
     def __init__(self):
         self.cat = 'Power'
         self.child = 'Watt > Joule/Hour'
-        self.childValue = StringVar()
         self.multiplier = 3600
         
 class JOULEHOUR__WATT(Converter):
     def __init__(self):
         self.cat = 'Power'
         self.child = 'Joule/Hour > Watt'
-        self.childValue = StringVar()
         self.multiplier = 0.000277
 
 converter = Converter().showParents()
