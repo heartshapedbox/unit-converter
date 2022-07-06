@@ -162,5 +162,7 @@ class JOULEHOUR__WATT(Converter):
         self.child = 'Joule/Hour > Watt'
         self.multiplier = 0.000277
 
-converter = Converter().showParents()
+if __name__ == '__main__':
+    converter = Converter().showParents()
+    
 root.mainloop()
