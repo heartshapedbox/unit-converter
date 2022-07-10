@@ -1,12 +1,16 @@
 from tkinter import *
 from tkinter import ttk
+import os
+os.chdir('C:\\Users\\baben\\Documents\\GitHub\\unit-converter\\')
 
 root = Tk()
 root.title('Unit Converter')
 x = int(root.winfo_screenwidth() // 2)
 y = int(root.winfo_screenheight() * 0.2)
-root.geometry('350x350+' + str(x) + '+' + str(y))
+x, y = str(x), str(y)
+root.geometry(f'350x350+{x}+{y}')
 root.resizable(False, False)
+root.iconbitmap('assets\\logo.ico')
 
 
 class Converter():
