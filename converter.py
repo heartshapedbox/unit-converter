@@ -21,6 +21,7 @@ class Converter():
         self.childrenList = []
         self.classesList = ['. . .',KILO__METER(),METER__KILO(),KILO__MILE(),MILE__KILO(),KILO__GRAM(),GRAM__KILO(),KILO__POUND(),POUND__KILO(),WATT__HP(),HP__WATT(),WATT__JOULEHOUR(),JOULEHOUR__WATT()]
         self.dict = {}
+        self.showParents()
 
 
     def showParents(self):
@@ -167,6 +168,6 @@ class JOULEHOUR__WATT(Converter):
         self.multiplier = 0.000277
 
 if __name__ == '__main__':
-    converter = Converter().showParents()
+    converter = Converter()
     
 root.mainloop()
