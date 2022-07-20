@@ -1,9 +1,13 @@
 from tkinter import *
 from tkinter import ttk
+from turtle import width
+import customtkinter
+customtkinter.set_default_color_theme('dark-blue')
 import os
 os.chdir('C:\\Users\\baben\\Documents\\GitHub\\unit-converter\\')
 
-root = Tk()
+
+root = customtkinter.CTk()
 root.title('Unit Converter')
 x = int(root.winfo_screenwidth() // 2)
 y = int(root.winfo_screenheight() * 0.2)
@@ -18,7 +22,6 @@ class Converter():
         self.parentValue = StringVar()
         self.parentsList = ['. . .','Length','Weight','Power']
         self.childValue = StringVar()
-        self.childrenList = []
         self.classesList = ['. . .',KILO__METER(),METER__KILO(),KILO__MILE(),MILE__KILO(),KILO__GRAM(),GRAM__KILO(),KILO__POUND(),POUND__KILO(),WATT__HP(),HP__WATT(),WATT__JOULEHOUR(),JOULEHOUR__WATT()]
         self.dict = {}
         self.showParents()
@@ -29,14 +32,14 @@ class Converter():
             for y in range(0, 2):
                 self.frame = Frame(root, borderwidth = 1)
                 self.frame.grid(row = 0, column = i, padx = 65)
-        self.parentLabel = Label(root, text = 'Choose a category')
+        self.parentLabel = customtkinter.CTkLabel(root, text = 'Choose a category')
         self.parentLabel.grid(row = 0, column = 0, padx = 10, pady = 30, sticky='e')
-        self.parentOption = ttk.OptionMenu(root, self.parentValue, self.parentsList[0], *self.parentsList, command = self.changeParent)
+        self.parentValue.set(self.parentsList[0])
+        self.parentOption = customtkinter.CTkComboBox(root, variable=f"{self.parentValue}", values=[*self.parentsList], command = self.changeParent)
         self.parentOption.grid(row = 0, column = 1, padx = 25, pady = 10, sticky='w')
 
-
     def changeParent(self, *args):
-        coverLayer = Label(root)
+        coverLayer = customtkinter.CTkLabel(root, text = '')
         coverLayer.place(width = 350, height = 250, y = 60)
         self.childrenList = []
         for i in range(1, len(self.classesList)):
@@ -49,50 +52,54 @@ class Converter():
 
 
     def showChildren(self):
-        self.childLabel = Label(root, text = 'Choose an option')
+        self.childLabel = customtkinter.CTkLabel(root, text = 'Choose an option')
         self.childLabel.grid(row = 1, column = 0, padx = 10, pady = 10, sticky='e')
-        self.childOption = ttk.OptionMenu(root, self.childValue, self.childrenList[0], *self.childrenList, command = self.changeChild)
+        self.childValue.set(self.childrenList[0])
+        self.childOption = customtkinter.CTkComboBox(root, variable=f"{self.childValue}", values = [*self.childrenList], command = self.changeChild)
         self.childOption.grid(row = 1, column = 1, padx = 25, pady = 10, sticky='w')
-        self.entryLabel = Label(root, text = f'{self.childValue.get().split(" > ")[0]}')
+        self.entryLabel = customtkinter.CTkLabel(root, text = f'{self.childValue.get().split(" > ")[0]}')
         self.entryLabel.grid(row = 2, column = 0, padx = 10, sticky='e')
-        self.entry = Entry(root, width = 15)
+        self.entry = customtkinter.CTkEntry(root, width = 120)
         self.entry.grid(row = 2, column = 1, padx = 25, pady = 10, sticky='w')
         self.entry.focus()
-        self.button = Button(root, text = 'Convert', width = 12, height = 2, command = self.convert)
+        self.button = customtkinter.CTkButton(root, text = 'Convert', width = 120, height = 35, cursor = 'hand2', command = self.convert)
         self.button.grid(row = 3, column = 1, padx = 25, pady = 10, sticky='w')
-        self.outputLabel = Label(root, text = f'{self.childValue.get().split(" > ")[1]}')
+        self.outputLabel = customtkinter.CTkLabel(root, text = f'{self.childValue.get().split(" > ")[1]}')
         self.outputLabel.grid(row = 4, column = 0, padx = 10, sticky='e')
-        self.message = Message(root, text = '0', width = 90)
-        self.message.grid(row = 4, column = 1, padx = 25, pady = 10, sticky='w')
+        self.message = customtkinter.CTkLabel(root, text = '0', justify = LEFT)
+        self.message.grid(row = 4, column = 1, padx = 12, sticky='w')
 
 
     def cleanChild(self):
         self.entry.delete(0, END)
-        self.message['text'] = '0'
+        self.message.configure(text = '0')
 
 
-    def changeChild(self, *args):
+    def changeChild(self, args):
         self.cleanChild()
         for i in range(0, len(self.childrenList)):
             if self.childValue.get() == self.childrenList[i]:
-                self.entryLabel['text'] = self.childValue.get().split(" > ")[0]
-                self.outputLabel['text'] = self.childValue.get().split(" > ")[1]
+                self.entryLabel.configure(text = self.childValue.get().split(" > ")[0])
+                self.outputLabel.configure(text = self.childValue.get().split(" > ")[1])
             else:
                 self.cleanChild()
 
 
     def convert(self):
             for key in self.dict:
-                if key == self.childValue.get():
-                    try:
-                        result = int(self.entry.get()) * self.dict[key]
-                        self.message['text'] = str(round(result, 4))
-                    except ValueError:
+                if len(self.entry.get()) > 14:
+                    self.cleanChild()
+                else:
+                    if key == self.childValue.get():
                         try:
-                            result = float(self.entry.get()) * self.dict[key]
-                            self.message['text'] = str(round(result, 4))
+                            result = int(self.entry.get()) * self.dict[key]
+                            self.message.configure(text = str(round(result, 4)))
                         except ValueError:
-                            self.cleanChild()
+                            try:
+                                result = float(self.entry.get()) * self.dict[key]
+                                self.message.configure(text = str(round(result, 4)))
+                            except ValueError:
+                                self.cleanChild()
 
 
 class KILO__METER(Converter):
