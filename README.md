@@ -9,4 +9,4 @@
 ## Unit converter.
 
 Stack:
-Python, Tkinter.
+Python, Tkinter, CustomTkinter.
