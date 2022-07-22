@@ -4,6 +4,7 @@ import customtkinter
 import pyperclip
 import os
 os.chdir('C:\\Users\\baben\\Documents\\GitHub\\unit-converter\\')
+customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme('dark-blue')
 
 
@@ -25,6 +26,13 @@ class Converter():
         self.child_value2 = StringVar()
         self.classes_list = ['. . .',KILO__METER(),METER__KILO(),KILO__MILE(),MILE__KILO(),MILE__METER(),METER__MILE(),KILO__GRAM(),GRAM__KILO(),KILO__POUND(),POUND__KILO(),POUND__GRAM(),GRAM__POUND(),WATT__HP(),HP__WATT(),WATT__JOULEHOUR(),JOULEHOUR__WATT(),JOULEHOUR__HP(),HP__JOULEHOUR()]
         self.dict = {}
+        
+        self.accent_color1 = '#363336'
+        self.accent_color2 = '#2e4f87'
+        self.accent_color3 = '#608bd5'
+        self.accent_color4 = '#f757a4'
+        self.accent_color5 = '#d6478d'
+        
         self.show_parents()
 
 
@@ -32,9 +40,10 @@ class Converter():
         self.parent_label = customtkinter.CTkLabel(root, text = 'Category')
         self.parent_label.grid(row = 0, column = 0, pady = 20, sticky='e')
         self.parent_value.set(self.parentsList[0])
-        self.parent_option = customtkinter.CTkComboBox(root, variable=f"{self.parent_value}", values=[*self.parentsList], command = self.change_parent)
+        self.parent_option = customtkinter.CTkOptionMenu(root, variable=self.parent_value, values=[*self.parentsList], command = self.change_parent)
         self.parent_option.grid(row = 0, column = 1, pady = 10, sticky='w')
-        self.parent_option.configure(width = 160)
+        self.parent_option.configure(width = 160, button_color = self.accent_color1, button_hover_color = self.accent_color1, dropdown_hover_color = self.accent_color2)
+        self.parent_option.focus()
 
 
     def change_parent(self, *args):
@@ -61,42 +70,42 @@ class Converter():
         self.child_label1 = customtkinter.CTkLabel(root, text = 'From')
         self.child_label1.grid(row = 1, column = 0, pady = 10, sticky='e')
         self.child_value1.set(self.children_list[0].split(' > ')[0])
-        self.child_option1 = customtkinter.CTkComboBox(root, variable=f"{self.child_value1}", values = [*self.children_list1], command = self.change_child)
+        self.child_option1 = customtkinter.CTkOptionMenu(root, variable=self.child_value1, values = [*self.children_list1], command = self.change_child)
         self.child_option1.grid(row = 1, column = 1, pady = 10, sticky='w')
-        self.child_option1.configure(width = 160)
+        self.child_option1.configure(width = 160, button_color = self.accent_color1, button_hover_color = self.accent_color1, dropdown_hover_color = self.accent_color2)
         
         self.child_label2 = customtkinter.CTkLabel(root, text = 'To')
         self.child_label2.grid(row = 2, column = 0, pady = 10, sticky='e')
         self.child_value2.set(self.children_list[0].split(' > ')[1])
-        self.child_option2 = customtkinter.CTkComboBox(root, variable=f"{self.child_value2}", values = [*self.children_list2], command = self.change_child)
+        self.child_option2 = customtkinter.CTkOptionMenu(root, variable=self.child_value2, values = [*self.children_list2], command = self.change_child)
         self.child_option2.grid(row = 2, column = 1, pady = 10, sticky='w')
-        self.child_option2.configure(width = 160)
+        self.child_option2.configure(width = 160, button_color = self.accent_color1, button_hover_color = self.accent_color1, dropdown_hover_color = self.accent_color2)
         
-        self.entry_label = customtkinter.CTkLabel(root, text = f'{self.child_value1.get()}', text_color = '#608bd5')
+        self.entry_label = customtkinter.CTkLabel(root, text = f'{self.child_value1.get()}', text_color = self.accent_color3)
         self.entry_label.grid(row = 3, column = 0, sticky='e')
         self.entry = customtkinter.CTkEntry(root, width = 160)
         self.entry.grid(row = 3, column = 1, pady = 10, sticky='w')
         self.entry.focus()
         self.convert_button = customtkinter.CTkButton(root, text = 'Convert', width = 160, height = 35, cursor = 'hand2', command = self.convert)
         self.convert_button.grid(row = 4, column = 1, pady = 10, sticky='w')
-        self.convert_button.configure(hover_color = '#2e4f87')
+        self.convert_button.configure(hover_color = self.accent_color2)
         self.switch_val = customtkinter.StringVar(value = "on")
         self.switch = customtkinter.CTkSwitch(root, text = '', cursor = 'hand2', variable = self.switch_val, onvalue = "on", offvalue = "off", command = self.switch_child)
         self.switch.grid(row = 4, column = 0, pady = 20, sticky='s')
-        self.switch.configure(fg_color = '#2e4f87')
-        self.output_label = customtkinter.CTkLabel(root, text = f'{self.child_value2.get()}', text_color = '#608bd5')
+        self.switch.configure(fg_color = self.accent_color2)
+        self.output_label = customtkinter.CTkLabel(root, text = f'{self.child_value2.get()}', text_color = self.accent_color3)
         self.output_label.grid(row = 5, column = 0, sticky='e')
         self.output = customtkinter.CTkLabel(root, text = '0', justify = LEFT)
         self.output.grid(row = 5, column = 1, sticky='w')
         self.copy_button = customtkinter.CTkButton(root, text = 'Copy', width = 70, height = 35, cursor = 'hand2', command = self.copy)
         self.copy_button.grid(row = 6, column = 1, pady = 20, sticky='e')
-        self.copy_button.configure(hover_color = '#2e4f87')
+        self.copy_button.configure(hover_color = self.accent_color2)
         self.reset_button = customtkinter.CTkButton(root, text = 'Reset', width = 70, height = 35, cursor = 'hand2', command = self.reset)
         self.reset_button.grid(row = 6, column = 0, pady = 20, sticky='s')
-        self.reset_button.configure(fg_color = '#f757a4', hover_color = '#d6478d')
+        self.reset_button.configure(fg_color = self.accent_color4, hover_color = self.accent_color5)
         self.copy_message = customtkinter.CTkLabel(root, text = '', width = 1, justify = RIGHT)
         self.copy_message.grid(row = 6, column = 1, padx = 20, pady = 20, sticky='w')
-        self.copy_message.configure(text_color = '#608bd5')   
+        self.copy_message.configure(text_color = self.accent_color3)   
     
 
     def clean_child(self):
