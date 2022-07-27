@@ -105,7 +105,7 @@ class Converter():
         self.reset_button.configure(fg_color = self.accent_color4, hover_color = self.accent_color5)
         self.copy_message = customtkinter.CTkLabel(root, text = '', width = 1, justify = RIGHT)
         self.copy_message.grid(row = 6, column = 1, padx = 20, pady = 20, sticky='w')
-        self.copy_message.configure(text_color = self.accent_color3)   
+        self.copy_message.configure(text_color = self.accent_color3)
     
 
     def clean_child(self):
