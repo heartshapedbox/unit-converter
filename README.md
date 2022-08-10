@@ -7,6 +7,7 @@
 
 # unit-converter
 ## Unit converter.
+.exe file in the unit-converter.rar
 
 Stack:
 Python, Tkinter, CustomTkinter.
