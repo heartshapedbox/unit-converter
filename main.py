@@ -8,18 +8,17 @@ customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme('dark-blue')
 
 
-root = customtkinter.CTk()
-root.title('Unit Converter')
-x = int(root.winfo_screenwidth() // 2)
-y = int(root.winfo_screenheight() * 0.2)
-x, y = str(x), str(y)
-root.geometry(f'335x380+{x}+{y}')
-root.resizable(False, False)
-root.iconbitmap('assets\\logo.ico')
-
-
-class Converter():
+class Converter(customtkinter.CTk):
     def __init__(self):
+        super().__init__()
+        self.title('Unit Converter')
+        self.iconbitmap('assets\\logo.ico')
+        x = int(self.winfo_screenwidth() // 2)
+        y = int(self.winfo_screenheight() * 0.2)
+        x, y = str(x), str(y)
+        self.geometry(f'335x380+{x}+{y}')
+        self.resizable(False, False)
+
         self.parent_value = StringVar()
         self.parentsList = ['. . .','Length','Weight','Power']
         self.child_value1 = StringVar()
@@ -37,17 +36,17 @@ class Converter():
 
 
     def show_parents(self):
-        self.parent_label = customtkinter.CTkLabel(root, text = 'Category')
+        self.parent_label = customtkinter.CTkLabel(self, text = 'Category')
         self.parent_label.grid(row = 0, column = 0, pady = 20, sticky='e')
         self.parent_value.set(self.parentsList[0])
-        self.parent_option = customtkinter.CTkOptionMenu(root, variable=self.parent_value, values=[*self.parentsList], command = self.change_parent)
+        self.parent_option = customtkinter.CTkOptionMenu(self, variable=self.parent_value, values=[*self.parentsList], command = self.change_parent)
         self.parent_option.grid(row = 0, column = 1, pady = 10, sticky='w')
         self.parent_option.configure(width = 160, button_color = self.accent_color1, button_hover_color = self.accent_color1, dropdown_hover_color = self.accent_color2)
         self.parent_option.focus()
 
 
     def change_parent(self, *args):
-        self.cover_layer = customtkinter.CTkLabel(root, text = '')
+        self.cover_layer = customtkinter.CTkLabel(self, text = '')
         self.cover_layer.place(width = 350, height = 500, y = 70)
         self.children_list, self.children_list1, self.children_list2 = [], [], []
         
@@ -67,43 +66,43 @@ class Converter():
 
 
     def show_children(self):
-        self.child_label1 = customtkinter.CTkLabel(root, text = 'From')
+        self.child_label1 = customtkinter.CTkLabel(self, text = 'From')
         self.child_label1.grid(row = 1, column = 0, pady = 10, sticky='e')
         self.child_value1.set(self.children_list[0].split(' > ')[0])
-        self.child_option1 = customtkinter.CTkOptionMenu(root, variable=self.child_value1, values = [*self.children_list1], command = self.change_child)
+        self.child_option1 = customtkinter.CTkOptionMenu(self, variable=self.child_value1, values = [*self.children_list1], command = self.change_child)
         self.child_option1.grid(row = 1, column = 1, pady = 10, sticky='w')
         self.child_option1.configure(width = 160, button_color = self.accent_color1, button_hover_color = self.accent_color1, dropdown_hover_color = self.accent_color2)
         
-        self.child_label2 = customtkinter.CTkLabel(root, text = 'To')
+        self.child_label2 = customtkinter.CTkLabel(self, text = 'To')
         self.child_label2.grid(row = 2, column = 0, pady = 10, sticky='e')
         self.child_value2.set(self.children_list[0].split(' > ')[1])
-        self.child_option2 = customtkinter.CTkOptionMenu(root, variable=self.child_value2, values = [*self.children_list2], command = self.change_child)
+        self.child_option2 = customtkinter.CTkOptionMenu(self, variable=self.child_value2, values = [*self.children_list2], command = self.change_child)
         self.child_option2.grid(row = 2, column = 1, pady = 10, sticky='w')
         self.child_option2.configure(width = 160, button_color = self.accent_color1, button_hover_color = self.accent_color1, dropdown_hover_color = self.accent_color2)
         
-        self.entry_label = customtkinter.CTkLabel(root, text = f'{self.child_value1.get()}', text_color = self.accent_color3)
+        self.entry_label = customtkinter.CTkLabel(self, text = f'{self.child_value1.get()}', text_color = self.accent_color3)
         self.entry_label.grid(row = 3, column = 0, sticky='e')
-        self.entry = customtkinter.CTkEntry(root, width = 160)
+        self.entry = customtkinter.CTkEntry(self, width = 160)
         self.entry.grid(row = 3, column = 1, pady = 10, sticky='w')
         self.entry.focus()
-        self.convert_button = customtkinter.CTkButton(root, text = 'Convert', width = 160, height = 35, cursor = 'hand2', command = self.convert)
+        self.convert_button = customtkinter.CTkButton(self, text = 'Convert', width = 160, height = 35, cursor = 'hand2', command = self.convert)
         self.convert_button.grid(row = 4, column = 1, pady = 10, sticky='w')
         self.convert_button.configure(hover_color = self.accent_color2)
         self.switch_val = customtkinter.StringVar(value = "on")
-        self.switch = customtkinter.CTkSwitch(root, text = '', cursor = 'hand2', variable = self.switch_val, onvalue = "on", offvalue = "off", command = self.switch_child)
+        self.switch = customtkinter.CTkSwitch(self, text = '', cursor = 'hand2', variable = self.switch_val, onvalue = "on", offvalue = "off", command = self.switch_child)
         self.switch.grid(row = 4, column = 0, pady = 20, sticky='s')
         self.switch.configure(fg_color = self.accent_color2)
-        self.output_label = customtkinter.CTkLabel(root, text = f'{self.child_value2.get()}', text_color = self.accent_color3)
+        self.output_label = customtkinter.CTkLabel(self, text = f'{self.child_value2.get()}', text_color = self.accent_color3)
         self.output_label.grid(row = 5, column = 0, sticky='e')
-        self.output = customtkinter.CTkLabel(root, text = '0', justify = LEFT)
+        self.output = customtkinter.CTkLabel(self, text = '0', justify = LEFT)
         self.output.grid(row = 5, column = 1, sticky='w')
-        self.copy_button = customtkinter.CTkButton(root, text = 'Copy', width = 70, height = 35, cursor = 'hand2', command = self.copy)
+        self.copy_button = customtkinter.CTkButton(self, text = 'Copy', width = 70, height = 35, cursor = 'hand2', command = self.copy)
         self.copy_button.grid(row = 6, column = 1, pady = 20, sticky='e')
         self.copy_button.configure(hover_color = self.accent_color2)
-        self.reset_button = customtkinter.CTkButton(root, text = 'Reset', width = 70, height = 35, cursor = 'hand2', command = self.reset)
+        self.reset_button = customtkinter.CTkButton(self, text = 'Reset', width = 70, height = 35, cursor = 'hand2', command = self.reset)
         self.reset_button.grid(row = 6, column = 0, pady = 20, sticky='s')
         self.reset_button.configure(fg_color = self.accent_color4, hover_color = self.accent_color5)
-        self.copy_message = customtkinter.CTkLabel(root, text = '', width = 1, justify = RIGHT)
+        self.copy_message = customtkinter.CTkLabel(self, text = '', width = 1, justify = RIGHT)
         self.copy_message.grid(row = 6, column = 1, padx = 20, pady = 20, sticky='w')
         self.copy_message.configure(text_color = self.accent_color3)
     
@@ -291,6 +290,4 @@ class HP__JOULEHOUR(Converter):
         self.multiplier = 2684519.53
 
 if __name__ == '__main__':
-    converter = Converter()
-    
-root.mainloop()
+    Converter().mainloop()
