@@ -16,7 +16,7 @@ class Converter(customtkinter.CTk):
         x = int(self.winfo_screenwidth() // 2)
         y = int(self.winfo_screenheight() * 0.2)
         x, y = str(x), str(y)
-        self.geometry(f'335x380+{x}+{y}')
+        self.geometry(f'370x380+{x}+{y}')
         self.resizable(False, False)
 
         self.parent_value = StringVar()
@@ -37,7 +37,7 @@ class Converter(customtkinter.CTk):
 
     def show_parents(self):
         self.parent_label = customtkinter.CTkLabel(self, text = 'Category')
-        self.parent_label.grid(row = 0, column = 0, pady = 20, sticky='e')
+        self.parent_label.grid(row = 0, column = 0, padx = 50, pady = 20, sticky='w')
         self.parent_value.set(self.parentsList[0])
         self.parent_option = customtkinter.CTkOptionMenu(self, variable=self.parent_value, values=[*self.parentsList], command = self.change_parent)
         self.parent_option.grid(row = 0, column = 1, pady = 10, sticky='w')
@@ -67,21 +67,21 @@ class Converter(customtkinter.CTk):
 
     def show_children(self):
         self.child_label1 = customtkinter.CTkLabel(self, text = 'From')
-        self.child_label1.grid(row = 1, column = 0, pady = 10, sticky='e')
+        self.child_label1.grid(row = 1, column = 0, padx = 50, pady = 10, sticky='w')
         self.child_value1.set(self.children_list[0].split(' > ')[0])
         self.child_option1 = customtkinter.CTkOptionMenu(self, variable=self.child_value1, values = [*self.children_list1], command = self.change_child)
         self.child_option1.grid(row = 1, column = 1, pady = 10, sticky='w')
         self.child_option1.configure(width = 160, button_color = self.accent_color1, button_hover_color = self.accent_color1, dropdown_hover_color = self.accent_color2)
         
         self.child_label2 = customtkinter.CTkLabel(self, text = 'To')
-        self.child_label2.grid(row = 2, column = 0, pady = 10, sticky='e')
+        self.child_label2.grid(row = 2, column = 0, padx = 50, pady = 10, sticky='w')
         self.child_value2.set(self.children_list[0].split(' > ')[1])
         self.child_option2 = customtkinter.CTkOptionMenu(self, variable=self.child_value2, values = [*self.children_list2], command = self.change_child)
         self.child_option2.grid(row = 2, column = 1, pady = 10, sticky='w')
         self.child_option2.configure(width = 160, button_color = self.accent_color1, button_hover_color = self.accent_color1, dropdown_hover_color = self.accent_color2)
         
         self.entry_label = customtkinter.CTkLabel(self, text = f'{self.child_value1.get()}', text_color = self.accent_color3)
-        self.entry_label.grid(row = 3, column = 0, sticky='e')
+        self.entry_label.grid(row = 3, column = 0, padx = 50, sticky='w')
         self.entry = customtkinter.CTkEntry(self, width = 160)
         self.entry.grid(row = 3, column = 1, pady = 10, sticky='w')
         self.entry.focus()
@@ -90,10 +90,10 @@ class Converter(customtkinter.CTk):
         self.convert_button.configure(hover_color = self.accent_color2)
         self.switch_val = customtkinter.StringVar(value = "on")
         self.switch = customtkinter.CTkSwitch(self, text = '', cursor = 'hand2', variable = self.switch_val, onvalue = "on", offvalue = "off", command = self.switch_child)
-        self.switch.grid(row = 4, column = 0, pady = 20, sticky='s')
+        self.switch.grid(row = 4, column = 0, pady = 20, sticky='e')
         self.switch.configure(fg_color = self.accent_color2)
         self.output_label = customtkinter.CTkLabel(self, text = f'{self.child_value2.get()}', text_color = self.accent_color3)
-        self.output_label.grid(row = 5, column = 0, sticky='e')
+        self.output_label.grid(row = 5, column = 0, padx = 50, sticky='w')
         self.output = customtkinter.CTkLabel(self, text = '0', justify = LEFT)
         self.output.grid(row = 5, column = 1, sticky='w')
         self.copy_button = customtkinter.CTkButton(self, text = 'Copy', width = 70, height = 35, cursor = 'hand2', command = self.copy)
