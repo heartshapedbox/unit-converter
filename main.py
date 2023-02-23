@@ -46,8 +46,6 @@ class Converter(customtkinter.CTk):
 
 
     def change_parent(self, *args):
-        self.cover_layer = customtkinter.CTkLabel(self, text = '')
-        self.cover_layer.place(width = 350, height = 500, y = 70)
         self.children_list, self.children_list1, self.children_list2 = [], [], []
         
         for i in range(1, len(self.classes_list)):
